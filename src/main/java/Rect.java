@@ -13,7 +13,7 @@ public abstract class Rect {
         this.color = color;
     }
 
-    public abstract void draw(Graphics2D g2);
+    protected abstract void draw(Graphics2D g2);
 
     public abstract boolean isMouse(Point mousePos);
 }

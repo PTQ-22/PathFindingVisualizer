@@ -3,7 +3,7 @@ import java.awt.*;
 
 public class WindowPanel extends JPanel implements Runnable {
 
-    public static final int WIDTH = 1200;
+    public static final int WIDTH = 1230;
     public static final int HEIGHT = 900;
     public static final int FPS = 60;
 

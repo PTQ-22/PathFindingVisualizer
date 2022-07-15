@@ -21,11 +21,11 @@ public class Button extends Rect {
     }
 
     @Override
-    public void draw(Graphics2D g2) {
+    protected void draw(Graphics2D g2) {
         g2.setColor(color);
         g2.fill(rectangle);
 
-        g2.setColor(Color.black);
+        g2.setColor(Color.DARK_GRAY);
         g2.setFont(font);
         // draw centered text
         FontMetrics fontMetrics = g2.getFontMetrics();
