@@ -7,6 +7,14 @@ public class MouseHandler implements MouseListener, MouseMotionListener {
     public boolean clicked = false;
     public Point mousePos = new Point(0, 0);
 
+    public boolean isClicked() {
+        if (clicked) {
+            clicked = false;
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public void mouseClicked(MouseEvent mouseEvent) {
         clicked = true;
