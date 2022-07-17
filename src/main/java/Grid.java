@@ -48,6 +48,7 @@ public class Grid {
                         endNodePos = startNodePos;
                     }
                     swapNodesType(startNodePos, newPos);
+                    animateNodesAround(startNodePos, newPos);
                     startNodePos = newPos;
                 }
             }
@@ -58,6 +59,7 @@ public class Grid {
                         startNodePos = endNodePos;
                     }
                     swapNodesType(endNodePos, newPos);
+                    animateNodesAround(endNodePos, newPos);
                     endNodePos = newPos;
                 }
             }
@@ -69,6 +71,53 @@ public class Grid {
         char tmp = nodes[pos1.x][pos1.y].getType();
         nodes[pos1.x][pos1.y].setType(nodes[pos2.x][pos2.y].getType());
         nodes[pos2.x][pos2.y].setType(tmp);
+    }
+
+    public void animateNodesAround(Point oldPos, Point newPos) {
+        if (!oldPos.equals(newPos)) {
+            String direction = getAnimationDirection(oldPos, newPos);
+            nodes[newPos.x][Math.min(newPos.y + 1, nodes[0].length - 1)].animate(Node.EMPTY);
+            nodes[Math.min(newPos.x + 1, nodes.length - 1)][newPos.y].animate(Node.EMPTY);
+            nodes[Math.max(newPos.x - 1, 0)][newPos.y].animate(Node.EMPTY);
+            nodes[newPos.x][Math.max(newPos.y - 1, 0)].animate(Node.EMPTY);
+            switch (direction) {
+                case "right" -> {
+                    nodes[newPos.x][Math.min(newPos.y + 1, nodes[0].length - 1)].animate(Node.EMPTY);
+                    nodes[Math.min(newPos.x + 1, nodes.length - 1)][Math.min(newPos.y + 1, nodes[0].length - 1)].animate(Node.EMPTY);
+                    nodes[Math.max(newPos.x - 1, 0)][Math.min(newPos.y + 1, nodes[0].length - 1)].animate(Node.EMPTY);
+                }
+                case "left" -> {
+                    nodes[newPos.x][Math.max(newPos.y - 1, 0)].animate(Node.EMPTY);
+                    nodes[Math.min(newPos.x + 1, nodes.length - 1)][Math.max(newPos.y - 1, 0)].animate(Node.EMPTY);
+                    nodes[Math.max(newPos.x - 1, 0)][Math.max(newPos.y - 1, 0)].animate(Node.EMPTY);
+
+                }
+                case "down" -> {
+                    nodes[Math.min(newPos.x + 1, nodes.length - 1)][newPos.y].animate(Node.EMPTY);
+                    nodes[Math.min(newPos.x + 1, nodes.length - 1)][Math.min(newPos.y + 1, nodes[0].length - 1)].animate(Node.EMPTY);
+                    nodes[Math.min(newPos.x + 1, nodes.length - 1)][Math.max(newPos.y - 1, 0)].animate(Node.EMPTY);
+
+                }
+                case "up" -> {
+                    nodes[Math.max(newPos.x - 1, 0)][newPos.y].animate(Node.EMPTY);
+                    nodes[Math.max(newPos.x - 1, 0)][Math.min(newPos.y + 1, nodes[0].length - 1)].animate(Node.EMPTY);
+                    nodes[Math.max(newPos.x - 1, 0)][Math.max(newPos.y - 1, 0)].animate(Node.EMPTY);
+                }
+                default -> {}
+        }
+        }
+    }
+
+    public static String getAnimationDirection(Point oldPos, Point newPos) {
+        if (oldPos.equals(newPos)) return "";
+        if (oldPos.x == newPos.x) {
+            if (oldPos.y < newPos.y) return "right";
+            else return "left";
+        }
+        else {
+            if (oldPos.x < newPos.x) return "down";
+            else return "up";
+        }
     }
 
     public void checkMouseClick(Point mousePos) {
@@ -91,6 +140,7 @@ public class Grid {
         if (pos != null) {
             if (nodes[pos.x][pos.y].getType() == Node.EMPTY && mouseHandler.mouseButton == 1) {
                 nodes[pos.x][pos.y].setType(Node.BORDER);
+//                nodes[pos.x][pos.y].animate();
             }
             else if (nodes[pos.x][pos.y].getType() == Node.BORDER && mouseHandler.mouseButton == 3) {
                 nodes[pos.x][pos.y].setType(Node.EMPTY);
@@ -144,18 +194,6 @@ public class Grid {
                 }
             }
         }
-    }
-
-    public LinkedList<Point> getBordersLocation() {
-        LinkedList<Point> res = new LinkedList<>();
-        for (Node[] row : nodes) {
-            for (Node node : row) {
-                if (node.getType() == Node.BORDER) {
-                    res.add(node.getGridPosition());
-                }
-            }
-        }
-        return res;
     }
 
     public Node[][] getNodes() {

@@ -45,6 +45,7 @@ public class Algorithm implements Runnable {
             path.pop();
             for (Node node : path) {
                 node.setType(Node.PATH);
+                node.animate(Node.PATH);
                 try {
                     Thread.sleep(PATH_SPEED_DELAY);
                 } catch (InterruptedException e) {
@@ -72,6 +73,7 @@ public class Algorithm implements Runnable {
             for (Point p : textNodes) {
                 if (grid.getNodes()[p.x][p.y].getType() != Node.START && grid.getNodes()[p.x][p.y].getType() != Node.END) {
                     grid.getNodes()[p.x][p.y].setType(Node.NO_PATH);
+                    grid.getNodes()[p.x][p.y].animate(Node.NO_PATH);
                 }
                 try {
                     Thread.sleep(PATH_SPEED_DELAY);
@@ -107,6 +109,7 @@ public class Algorithm implements Runnable {
                         return true;
                     }
                     arr[x][y].setType(Node.WAVE);
+                    arr[x][y].animate(Node.WAVE);
                     try {
                         Thread.sleep(WAVE_SPEED_DELAY);
                     } catch (InterruptedException e) {

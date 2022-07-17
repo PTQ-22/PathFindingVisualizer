@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public class Node extends Rect {
+public class Node extends Rect implements Runnable {
     public static final char EMPTY = '.';
     public static final char BORDER = '#';
     public static final char START = 's';
@@ -55,5 +55,40 @@ public class Node extends Rect {
 
     public void setGridPosition(Point gridPosition) {
         this.gridPosition = gridPosition;
+    }
+
+    public void animate(char type) {
+        if (this.type == type)
+            new Thread(this).start();
+    }
+
+    @Override
+    public void run() {
+        int numOfOperations = 5;
+        int val = 10;
+        for (int i = 0; i < numOfOperations; ++i) {
+            setColor(changeRGB(color, -val));
+        }
+        for (int i = 0; i < numOfOperations; ++i) {
+            setColor(changeRGB(color, val));
+            try {
+                Thread.sleep(100L);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public static Color changeRGB(Color currentColor, int val) {
+        int r = verifyColorVal(currentColor.getRed() + val);
+        int g = verifyColorVal(currentColor.getGreen() + val);
+        int b = verifyColorVal(currentColor.getBlue() + val);
+        return new Color(r, g, b);
+    }
+
+    public static int verifyColorVal(int val) {
+        if (val > 255) return 255;
+        else if (val < 0) return 0;
+        return val;
     }
 }

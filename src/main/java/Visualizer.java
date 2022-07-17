@@ -43,10 +43,6 @@ public class Visualizer {
             grid.clearType(Node.BORDER);
         }
         if (clearWaveButton.isMouse(mouseHandler.mousePos) && mouseHandler.isClicked()) {
-//            var res = grid.getBordersLocation();
-//            StringBuilder textRes = new StringBuilder();
-//            for (Point p : res) textRes.append(p.x).append(" ").append(p.y).append("\n");
-//            System.out.println(textRes);
             grid.clearType(Node.PATH);
             grid.clearType(Node.NO_PATH);
             grid.clearType(Node.WAVE);
