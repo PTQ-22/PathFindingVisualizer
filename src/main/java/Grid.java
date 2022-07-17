@@ -71,21 +71,30 @@ public class Grid {
     }
 
     public void checkMouseClick(Point mousePos) {
-        for (int i = 0; i < height; ++i) {
-            for (int j = 0; j < width; ++j) {
-                if (nodes[i][j].rectangle.contains(mousePos)) {
-                    if (nodes[i][j].getType() == Node.START) {
-                        setState(movingStartNode());
-                        return;
-                    }
-                    else if (nodes[i][j].getType() == Node.END) {
-                        setState(movingEndNode());
-                        return;
-                    }
-                }
+        Point pos = findPositionInGrid(nodes, mousePos);
+        if (pos != null) {
+            if (nodes[pos.x][pos.y].getType() == Node.START) {
+                setState(movingStartNode());
+                return;
+            }
+            else if (nodes[pos.x][pos.y].getType() == Node.END) {
+                setState(movingEndNode());
+                return;
             }
         }
         setState(Grid.NO_MV);
+    }
+
+    public void checkPressed(MouseHandler mouseHandler) {
+        Point pos = findPositionInGrid(nodes, mouseHandler.mousePos);
+        if (pos != null) {
+            if (nodes[pos.x][pos.y].getType() == Node.EMPTY && mouseHandler.mouseButton == 1) {
+                nodes[pos.x][pos.y].setType(Node.BORDER);
+            }
+            else if (nodes[pos.x][pos.y].getType() == Node.BORDER && mouseHandler.mouseButton == 3) {
+                nodes[pos.x][pos.y].setType(Node.EMPTY);
+            }
+        }
     }
 
     public void setState(String newState) {

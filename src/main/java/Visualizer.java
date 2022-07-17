@@ -23,6 +23,10 @@ public class Visualizer {
         }
         grid.update(mouseHandler.mousePos);
         checkButtonsClicks();
+        if (mouseHandler.isPressed) {
+            grid.checkPressed(mouseHandler);
+//            System.out.println(mouseHandler.isPressed);
+        }
     }
 
     private void checkButtonsClicks() {
