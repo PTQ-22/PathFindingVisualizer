@@ -9,7 +9,7 @@ public class WindowPanel extends JPanel implements Runnable {
 
     private Thread thread;
     private final MouseHandler mouseHandler = new MouseHandler();
-    private final Visualizer visualizer = new Visualizer(this, mouseHandler);
+    private final Visualizer visualizer = new Visualizer(mouseHandler);
 
     public WindowPanel() {
         this.setPreferredSize(new Dimension(WIDTH, HEIGHT));

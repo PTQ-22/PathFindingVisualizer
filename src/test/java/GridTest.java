@@ -6,8 +6,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class GridTest {
 
-    private final Grid grid = new Grid(0, 150, 41, 25);
-
     @Test
     void gridStateChangesToMoveStartAfterClick() {
         Grid newGrid = new Grid(0, 150, 41, 25);
@@ -49,5 +47,4 @@ public class GridTest {
         Point mousePos = new Point(25, 41);
         assertEquals(new Point(4, 2), Grid.findPositionInGrid(grid, mousePos));
     }
-
 }

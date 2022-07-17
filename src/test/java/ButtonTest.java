@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -8,6 +9,7 @@ public class ButtonTest {
     private final Color buttonColor = Color.blue;
     private final Color buttonColorHover = Color.darkGray;
     private final Button button = new Button(new Rectangle(0, 0, 100, 100), buttonColor, buttonColorHover, "");
+    private final Grid grid = new Grid(0, 150, 41, 25);
 
     @Test
     void buttonReactsIfMouse() {
@@ -36,4 +38,24 @@ public class ButtonTest {
         button.isMouse(mousePos);
         assertEquals(buttonColor, button.getColor());
     }
+
+    @BeforeEach
+    void initGridWithFewBordersDraw() {
+        MouseHandler fakeHandler = new MouseHandler();
+        fakeHandler.mouseButton = 1;
+        fakeHandler.mousePos = new Point(400, 400);
+        grid.checkPressed(fakeHandler);
+    }
+
+    @Test
+    void drawingBordersWorks() {
+        assertTrue(grid.containNode(Node.BORDER));
+    }
+
+    @Test
+    void clearBordersButtonWorks() {
+        grid.clearType(Node.BORDER);
+        assertFalse(grid.containNode(Node.BORDER));
+    }
+
 }

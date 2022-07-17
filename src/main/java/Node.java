@@ -21,6 +21,8 @@ public class Node extends Rect {
             case BORDER -> {return Color.BLACK;}
             case START -> {return new Color(0xDD28FB);}
             case END -> {return new Color(0, 150, 0);}
+            case WAVE -> {return Color.YELLOW;}
+            case PATH -> {return Color.blue;}
             default -> {return Color.WHITE;}
         }
     }

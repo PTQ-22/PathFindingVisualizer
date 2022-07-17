@@ -123,4 +123,37 @@ public class Grid {
         }
         return null;
     }
+
+    public boolean containNode(char type) {
+        for (Node[] row : nodes) {
+            for (Node node : row) {
+                if (node.getType() == type) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void clearType(char type) {
+        for (Node[] row : nodes) {
+            for (Node node : row) {
+                if (node.getType() == type) {
+                    node.setType(Node.EMPTY);
+                }
+            }
+        }
+    }
+
+    public Node[][] getNodes() {
+        return nodes;
+    }
+
+    public Node getStartNode() {
+        return nodes[startNodePos.x][startNodePos.y];
+    }
+
+    public Node getEndNode() {
+        return nodes[endNodePos.x][endNodePos.y];
+    }
 }
