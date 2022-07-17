@@ -6,7 +6,7 @@ public class Button extends Rect {
     private final Color hoverColor;
     private final Color mainColor;
     private final Color borderColor = new Color(0x208B70);
-    private final String text;
+    private String text;
     private final Font font = new Font("FreeSans", Font.BOLD, 30);
 
     protected Button(Rectangle rectangle, Color color, Color hoverColor, String text) {
@@ -19,6 +19,10 @@ public class Button extends Rect {
 
     public Color getColor() {
         return color;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     @Override

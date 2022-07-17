@@ -1,5 +1,6 @@
 
 import java.awt.*;
+import java.util.LinkedList;
 
 public class Grid {
     public static final int TILE_SIZE = 30;
@@ -143,6 +144,18 @@ public class Grid {
                 }
             }
         }
+    }
+
+    public LinkedList<Point> getBordersLocation() {
+        LinkedList<Point> res = new LinkedList<>();
+        for (Node[] row : nodes) {
+            for (Node node : row) {
+                if (node.getType() == Node.BORDER) {
+                    res.add(node.getGridPosition());
+                }
+            }
+        }
+        return res;
     }
 
     public Node[][] getNodes() {

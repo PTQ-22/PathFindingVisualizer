@@ -6,6 +6,8 @@ public class Visualizer {
     private final Button clearBordersButton;
     private final Button clearWaveButton;
     private final Grid grid;
+    private boolean isAlgorithmWorking = false;
+    private Thread algorithmThread;
 
     public Visualizer(MouseHandler mouseHandler) {
         this.mouseHandler = mouseHandler;
@@ -17,26 +19,39 @@ public class Visualizer {
 
     public void update() {
         checkButtonsClicks();
-        if (mouseHandler.isClicked()) {
-            grid.checkMouseClick(mouseHandler.mousePos);
-        }
-        grid.update(mouseHandler.mousePos);
-        if (mouseHandler.isPressed) {
-            grid.checkPressed(mouseHandler);
+        if (!isAlgorithmWorking) {
+            if (mouseHandler.isClicked()) {
+                grid.checkMouseClick(mouseHandler.mousePos);
+            }
+            grid.update(mouseHandler.mousePos);
+            if (mouseHandler.isPressed) {
+                grid.checkPressed(mouseHandler);
+            }
         }
     }
 
     private void checkButtonsClicks() {
-        if (startButton.isMouse(mouseHandler.mousePos) && mouseHandler.clicked) {
-            Algorithm algo = new Algorithm(grid, grid.getStartNode(), grid.getEndNode());
-            new Thread(algo).start();
+        if (startButton.isMouse(mouseHandler.mousePos) && mouseHandler.isClicked()) {
+            if (!isAlgorithmWorking) {
+                Algorithm algo = new Algorithm(grid, grid.getStartNode(), grid.getEndNode());
+                algorithmThread = new Thread(algo);
+                algorithmThread.start();
+                isAlgorithmWorking = true;
+            }
         }
-        if (clearBordersButton.isMouse(mouseHandler.mousePos) && mouseHandler.clicked) {
+        if (clearBordersButton.isMouse(mouseHandler.mousePos) && mouseHandler.isClicked() && !isAlgorithmWorking) {
             grid.clearType(Node.BORDER);
         }
-        if (clearWaveButton.isMouse(mouseHandler.mousePos) && mouseHandler.clicked) {
-            grid.clearType(Node.WAVE);
+        if (clearWaveButton.isMouse(mouseHandler.mousePos) && mouseHandler.isClicked()) {
+//            var res = grid.getBordersLocation();
+//            StringBuilder textRes = new StringBuilder();
+//            for (Point p : res) textRes.append(p.x).append(" ").append(p.y).append("\n");
+//            System.out.println(textRes);
             grid.clearType(Node.PATH);
+            grid.clearType(Node.NO_PATH);
+            grid.clearType(Node.WAVE);
+            isAlgorithmWorking = false;
+            if (algorithmThread != null && algorithmThread.isAlive()) algorithmThread.interrupt();
         }
     }
 

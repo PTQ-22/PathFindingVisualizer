@@ -7,6 +7,7 @@ public class Node extends Rect {
     public static final char END = 'e';
     public static final char WAVE = 'w';
     public static final char PATH = 'p';
+    public static final char NO_PATH = 't';
     private char type;
     private Point gridPosition;
 
@@ -23,6 +24,7 @@ public class Node extends Rect {
             case END -> {return new Color(0, 150, 0);}
             case WAVE -> {return Color.YELLOW;}
             case PATH -> {return Color.blue;}
+            case NO_PATH -> {return Color.red;}
             default -> {return Color.WHITE;}
         }
     }
