@@ -1,10 +1,15 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Objects;
 
 public class Visualizer {
     private final MouseHandler mouseHandler;
     private final Button startButton;
     private final Button clearBordersButton;
     private final Button clearWaveButton;
+    private final BufferedImage legendImage;
     private final Grid grid;
     private boolean isAlgorithmWorking = false;
     private Thread algorithmThread;
@@ -15,6 +20,7 @@ public class Visualizer {
         this.clearBordersButton = new Button(new Rectangle(465, 60, 300, 60), Color.WHITE, new Color(200, 200, 200), "CLEAR BORDERS");
         this.clearWaveButton = new Button(new Rectangle(865, 60, 300, 60), Color.WHITE, new Color(200, 200, 200), "CLEAR SEARCH");
         this.grid = new Grid(0, 5 * Grid.TILE_SIZE,WindowPanel.WIDTH / Grid.TILE_SIZE, WindowPanel.HEIGHT / Grid.TILE_SIZE - 5);
+        this.legendImage = loadImage();
     }
 
     public void update() {
@@ -55,6 +61,20 @@ public class Visualizer {
         g2.setColor(Color.DARK_GRAY);
         g2.fillRect(0, 0, WindowPanel.WIDTH, WindowPanel.HEIGHT);
         Button.drawButtons(g2);
+        g2.drawImage(legendImage, 20, 10, null);
         grid.draw(g2);
+    }
+
+    private BufferedImage loadImage() {
+        BufferedImage bg = null;
+        try {
+            bg = ImageIO.read(
+                    Objects.requireNonNull(getClass().getResourceAsStream("legend.png"))
+            );
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bg;
     }
 }

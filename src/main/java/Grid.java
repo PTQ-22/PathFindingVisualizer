@@ -1,6 +1,5 @@
 
 import java.awt.*;
-import java.util.LinkedList;
 
 public class Grid {
     public static final int TILE_SIZE = 30;
